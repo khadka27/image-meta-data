@@ -55,7 +55,7 @@ export function ExifViewer() {
           <input 
             id="file-upload" 
             type="file" 
-            accept="image/jpeg, image/png, image/webp, image/tiff" 
+            accept="image/*" 
             className="hidden" 
             onChange={onFileChange}
           />
@@ -78,8 +78,24 @@ export function ExifViewer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="md:col-span-1 border rounded-xl overflow-hidden bg-muted flex items-center justify-center p-4">
               {preview && (
-                <Image src={preview} alt="Preview" width={400} height={400} className="w-full h-auto object-contain rounded" />
+                <Image 
+                  src={preview} 
+                  alt="Preview" 
+                  width={400} 
+                  height={400} 
+                  className="w-full h-auto object-contain rounded"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    const fallback = (e.target as HTMLImageElement).nextElementSibling;
+                    if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                  }}
+                />
               )}
+              <div className="hidden flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
+                <ImageIcon className="h-16 w-16" />
+                <p className="text-sm font-medium">Preview not available</p>
+                <p className="text-xs">{file?.name.split('.').pop()?.toUpperCase()} format</p>
+              </div>
             </div>
             
             <div className="md:col-span-2">

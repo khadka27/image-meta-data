@@ -74,7 +74,7 @@ export function ExifRemover() {
           <input 
             id="file-upload" 
             type="file" 
-            accept="image/jpeg, image/png, image/webp, image/tiff" 
+            accept="image/*" 
             className="hidden" 
             onChange={onFileChange}
           />

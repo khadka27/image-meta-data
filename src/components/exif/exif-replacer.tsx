@@ -78,14 +78,14 @@ export function ExifReplacer() {
           
           {!sourceFile ? (
              <div className="border-2 border-dashed rounded-xl p-8 text-center hover:bg-muted/50 cursor-pointer" onClick={() => document.getElementById('source-upload')?.click()}>
-               <input id="source-upload" type="file" accept="image/jpeg, image/png, image/webp, image/tiff" className="hidden" onChange={handleSourceUpload} />
+               <input id="source-upload" type="file" accept="image/*" className="hidden" onChange={handleSourceUpload} />
                <UploadCloud className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
                <p className="text-sm font-medium">Upload Source</p>
              </div>
           ) : (
              <div className="flex flex-col items-center">
                <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center overflow-hidden mb-4 border">
-                 {sourcePreview && <Image src={sourcePreview} alt="Source" width={200} height={200} className="object-contain h-full w-full" />}
+                 {sourcePreview && <Image src={sourcePreview} alt="Source" width={200} height={200} className="object-contain h-full w-full" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />}
                </div>
                <p className="text-sm font-medium truncate w-full text-center">{sourceFile.name}</p>
                <Button variant="ghost" size="sm" className="mt-2" onClick={() => setSourceFile(null)}>Change</Button>
@@ -100,14 +100,14 @@ export function ExifReplacer() {
           
           {!targetFile ? (
              <div className="border-2 border-dashed rounded-xl p-8 text-center hover:bg-muted/50 cursor-pointer" onClick={() => document.getElementById('target-upload')?.click()}>
-               <input id="target-upload" type="file" accept="image/jpeg, image/png, image/webp, image/tiff" className="hidden" onChange={handleTargetUpload} />
+               <input id="target-upload" type="file" accept="image/*" className="hidden" onChange={handleTargetUpload} />
                <UploadCloud className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
                <p className="text-sm font-medium">Upload Target</p>
              </div>
           ) : (
              <div className="flex flex-col items-center">
                <div className="w-full h-48 bg-muted rounded-lg flex items-center justify-center overflow-hidden mb-4 border">
-                 {targetPreview && <Image src={targetPreview} alt="Target" width={200} height={200} className="object-contain h-full w-full" />}
+                 {targetPreview && <Image src={targetPreview} alt="Target" width={200} height={200} className="object-contain h-full w-full" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />}
                </div>
                <p className="text-sm font-medium truncate w-full text-center">{targetFile.name}</p>
                <Button variant="ghost" size="sm" className="mt-2" onClick={() => setTargetFile(null)}>Change</Button>

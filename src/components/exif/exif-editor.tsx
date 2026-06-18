@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import exifr from "exifr";
 import { Button } from "@/components/ui/button";
-import { UploadCloud, Image as ImageIcon, Save, Plus, Trash2 } from "lucide-react";
+import { UploadCloud, Image as ImageIcon, Save, Plus, Trash2, Sparkles, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { CAMERA_MAKES, CAMERA_MODELS } from "@/lib/camera-models";
 
@@ -18,6 +18,7 @@ export function ExifEditor() {
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
   
   const [tags, setTags] = useState<ExifTag[]>([]);
 
@@ -121,11 +122,21 @@ export function ExifEditor() {
 
       if (!response.ok) throw new Error("Failed to save metadata");
 
+      // Read Content-Disposition header filename if present
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let downloadName = `edited_${file.name}`;
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+        if (filenameMatch && filenameMatch[1]) {
+          downloadName = filenameMatch[1];
+        }
+      }
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `edited_${file.name}`;
+      a.download = downloadName;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -136,6 +147,50 @@ export function ExifEditor() {
       alert("An error occurred while saving metadata.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    try {
+      const modelTag = tags.find(t => t.key === "Model" || t.key === "CameraModel");
+      const makeTag = tags.find(t => t.key === "Make");
+      
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          model: modelTag?.value || "",
+          make: makeTag?.value || ""
+        })
+      });
+
+      if (!response.ok) throw new Error("Failed to generate metadata");
+
+      const generatedData = await response.json();
+      
+      const newTags = [...tags];
+      const updateOrAdd = (key: string, value: string) => {
+        const existing = newTags.find(t => t.key === key);
+        if (existing) {
+          existing.value = String(value);
+        } else {
+          newTags.push({ id: Math.random().toString(36).substr(2, 9), key, value: String(value) });
+        }
+      };
+
+      Object.entries(generatedData).forEach(([k, v]) => {
+        if (v && String(v).trim() !== "") {
+          updateOrAdd(k, String(v));
+        }
+      });
+      
+      setTags(newTags);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating metadata.");
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -154,7 +209,7 @@ export function ExifEditor() {
           <input 
             id="file-upload" 
             type="file" 
-            accept="image/jpeg, image/png, image/webp, image/tiff" 
+            accept="image/*" 
             className="hidden" 
             onChange={onFileChange}
           />
@@ -177,16 +232,38 @@ export function ExifEditor() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1 border rounded-xl overflow-hidden bg-muted flex items-center justify-center p-4 h-max sticky top-24">
               {preview && (
-                <Image src={preview} alt="Preview" width={400} height={400} className="w-full h-auto object-contain rounded" />
+                <Image 
+                  src={preview} 
+                  alt="Preview" 
+                  width={400} 
+                  height={400} 
+                  className="w-full h-auto object-contain rounded" 
+                  onError={(e) => {
+                    // Hide broken image and show fallback
+                    (e.target as HTMLImageElement).style.display = 'none';
+                    const fallback = (e.target as HTMLImageElement).nextElementSibling;
+                    if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                  }}
+                />
               )}
+              <div className="hidden flex-col items-center justify-center gap-3 py-12 text-muted-foreground">
+                <ImageIcon className="h-16 w-16" />
+                <p className="text-sm font-medium">Preview not available</p>
+                <p className="text-xs">{file?.name.split('.').pop()?.toUpperCase()} format</p>
+              </div>
             </div>
             
             <div className="lg:col-span-2 bg-card border rounded-xl p-6 shadow-sm">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="font-semibold text-lg">Dynamic Metadata Editor</h3>
-                <Button variant="outline" size="sm" onClick={handleAddTag} className="gap-2">
-                  <Plus className="h-4 w-4" /> Add Field
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={handleGenerate} disabled={generating} className="gap-2 text-purple-500 hover:text-purple-600 border-purple-200 hover:bg-purple-50">
+                    {generating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />} AI Generate
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={handleAddTag} className="gap-2">
+                    <Plus className="h-4 w-4" /> Add Field
+                  </Button>
+                </div>
               </div>
               
               {loading ? (

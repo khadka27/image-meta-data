@@ -35,10 +35,10 @@ export default function Home() {
             View, edit, remove, and generate EXIF data with ease. Protect your privacy or manage your photography workflow with professional-grade tools running directly in your browser.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Button size="lg" className="h-14 px-8 text-lg bg-accent hover:bg-accent/90 text-white font-semibold rounded-full shadow-lg shadow-accent/20 hover:shadow-xl hover:-translate-y-0.5 transition-all" render={<Link href="/exif-viewer" />}>
+            <Button size="lg" nativeButton={false} className="h-14 px-8 text-lg bg-accent hover:bg-accent/90 text-white font-semibold rounded-full shadow-lg shadow-accent/20 hover:shadow-xl hover:-translate-y-0.5 transition-all" render={<Link href="/exif-viewer" />}>
               Try the EXIF Viewer
             </Button>
-            <Button size="lg" variant="outline" className="h-14 px-8 text-lg bg-background text-primary border-primary/20 hover:bg-primary/5 rounded-full shadow-sm hover:shadow-md transition-all" render={<Link href="/bulk-exif-editor" />}>
+            <Button size="lg" nativeButton={false} variant="outline" className="h-14 px-8 text-lg bg-background text-primary border-primary/20 hover:bg-primary/5 rounded-full shadow-sm hover:shadow-md transition-all" render={<Link href="/bulk-exif-editor" />}>
               Bulk Processing
             </Button>
           </div>
@@ -131,7 +131,7 @@ export default function Home() {
           <p className="text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto leading-relaxed">
             Enjoy unlimited access to our entire suite of metadata tools. 100% free forever, no signup required.
           </p>
-          <Button size="lg" className="h-14 px-10 text-lg bg-accent hover:bg-accent/90 text-white font-bold rounded-full shadow-xl hover:-translate-y-1 transition-all" render={<Link href="/exif-viewer" />}>
+          <Button size="lg" nativeButton={false} className="h-14 px-10 text-lg bg-accent hover:bg-accent/90 text-white font-bold rounded-full shadow-xl hover:-translate-y-1 transition-all" render={<Link href="/exif-viewer" />}>
             Get Started Now
           </Button>
         </div>

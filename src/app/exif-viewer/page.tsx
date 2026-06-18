@@ -6,7 +6,7 @@ import { Camera, Shield, Zap, Globe, FileImage, Clock } from "lucide-react";
 export const metadata: Metadata = {
   title: "Image Metadata Viewer – View EXIF, IPTC & XMP Data Online | EXIFForge",
   description:
-    "Free online image metadata viewer. Check image metadata, view EXIF data from JPEG, PNG, WebP & TIFF files. Instantly see camera info, GPS location, date taken, ISO, aperture and more. No upload required — processed in your browser.",
+    "Free online image metadata viewer. Check image metadata, view EXIF data from JPEG, PNG, WebP & TIFF files. Instantly see camera info, GPS location, date taken, ISO, aperture and more. No upload required - processed in your browser.",
   keywords: [
     "image meta data",
     "image metadata extractor",
@@ -67,7 +67,7 @@ export default function ExifViewerPage() {
           Image Metadata Viewer & EXIF Extractor
         </h1>
         <p className="text-lg text-muted-foreground mb-10 max-w-3xl leading-relaxed">
-          Instantly view all hidden metadata in any image — camera make, model, lens, GPS location, ISO, aperture, date taken, copyright, and more. Supports JPEG, JPG, PNG, WebP, and TIFF. Your file stays in your browser; nothing is uploaded to our servers.
+          Instantly view all hidden metadata in any image - camera make, model, lens, GPS location, ISO, aperture, date taken, copyright, and more. Supports JPEG, JPG, PNG, WebP, and TIFF. Your file stays in your browser; nothing is uploaded to our servers.
         </p>
 
         <ExifViewer />
@@ -109,7 +109,7 @@ export default function ExifViewerPage() {
             {[
               { step: "1", icon: <Camera className="h-6 w-6" />, title: "Upload Your Image", desc: "Drag and drop or click to select any JPEG, JPG, PNG, WebP, or TIFF file. Files up to 50MB are supported." },
               { step: "2", icon: <Zap className="h-6 w-6" />, title: "Instant Extraction", desc: "Our engine instantly reads all embedded EXIF, IPTC, and XMP metadata directly in your browser." },
-              { step: "3", icon: <Globe className="h-6 w-6" />, title: "View All Details", desc: "See every field in a clean, searchable table — including GPS map location, camera settings, and copyright info." },
+              { step: "3", icon: <Globe className="h-6 w-6" />, title: "View All Details", desc: "See every field in a clean, searchable table - including GPS map location, camera settings, and copyright info." },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center text-center p-6">
                 <div className="h-14 w-14 rounded-2xl bg-accent text-white flex items-center justify-center mb-4 text-xl font-extrabold">{s.step}</div>
@@ -126,7 +126,7 @@ export default function ExifViewerPage() {
         <div className="container mx-auto px-4 max-w-5xl flex flex-col md:flex-row items-center gap-6">
           <Shield className="h-12 w-12 text-accent shrink-0" />
           <div>
-            <h3 className="text-xl font-bold mb-1">100% Private — Your Images Never Leave Your Device</h3>
+            <h3 className="text-xl font-bold mb-1">100% Private - Your Images Never Leave Your Device</h3>
             <p className="text-muted-foreground">All metadata extraction happens entirely in your browser using JavaScript. We never upload, store, or process your images on any server. This tool works even offline once the page is loaded.</p>
           </div>
         </div>
@@ -160,7 +160,7 @@ export default function ExifViewerPage() {
               },
               {
                 q: "How can I read metadata from a photo on a Mac?",
-                a: "You can use EXIFForge directly in your browser on Mac — just upload the file. Alternatively, macOS Preview app lets you view basic EXIF data under Tools → Show Inspector. For advanced metadata, EXIFForge is a more comprehensive online solution.",
+                a: "You can use EXIFForge directly in your browser on Mac - just upload the file. Alternatively, macOS Preview app lets you view basic EXIF data under Tools → Show Inspector. For advanced metadata, EXIFForge is a more comprehensive online solution.",
               },
               {
                 q: "Can I check metadata from a Facebook photo?",

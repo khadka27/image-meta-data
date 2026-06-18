@@ -6,7 +6,7 @@ import { Layers, Zap, Archive, Shield, CheckCircle2 } from "lucide-react";
 export const metadata: Metadata = {
   title: "Bulk Image Metadata Editor – Edit EXIF on 100 Photos at Once | EXIFForge",
   description:
-    "Batch edit, remove, or apply metadata to hundreds of images at once. Strip GPS from 100 photos, apply copyright to an entire photoshoot, or bulk-clean metadata for privacy. Free online bulk EXIF editor — download results as ZIP.",
+    "Batch edit, remove, or apply metadata to hundreds of images at once. Strip GPS from 100 photos, apply copyright to an entire photoshoot, or bulk-clean metadata for privacy. Free online bulk EXIF editor - download results as ZIP.",
   keywords: [
     "bulk exif editor",
     "bulk image metadata editor",
@@ -31,13 +31,13 @@ export default function BulkExifEditorPage() {
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         <div className="mb-3 flex items-center gap-2 text-sm text-accent font-medium">
           <Layers className="h-4 w-4" />
-          <span>Bulk Processing — Up to 100 Images</span>
+          <span>Bulk Processing - Up to 100 Images</span>
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4 text-primary leading-tight">
           Bulk Image Metadata Editor
         </h1>
         <p className="text-lg text-muted-foreground mb-10 max-w-3xl leading-relaxed">
-          Edit, remove, or apply metadata to up to 100 images in a single batch. Strip GPS location, apply your copyright template to an entire shoot, or bulk-clean photos for privacy — all in one operation. Download results as a ZIP file instantly.
+          Edit, remove, or apply metadata to up to 100 images in a single batch. Strip GPS location, apply your copyright template to an entire shoot, or bulk-clean photos for privacy - all in one operation. Download results as a ZIP file instantly.
         </p>
 
         <BulkEditor />

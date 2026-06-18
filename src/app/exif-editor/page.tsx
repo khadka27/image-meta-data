@@ -6,7 +6,7 @@ import { Edit3, Shield, Zap, FileImage } from "lucide-react";
 export const metadata: Metadata = {
   title: "Photo & Image Metadata Editor – Edit EXIF Data Online Free | EXIFForge",
   description:
-    "Edit all EXIF, IPTC and XMP metadata in any image online. Change author, copyright, GPS location, camera info, date taken, keywords, and more. Free photo metadata editor — no signup, no upload to server. Supports JPEG, JPG, PNG, WebP, TIFF.",
+    "Edit all EXIF, IPTC and XMP metadata in any image online. Change author, copyright, GPS location, camera info, date taken, keywords, and more. Free photo metadata editor - no signup, no upload to server. Supports JPEG, JPG, PNG, WebP, TIFF.",
   keywords: [
     "exif metadata editor",
     "photo exif editor metadata editor",
@@ -38,7 +38,7 @@ export default function EditExifPage() {
           Photo & Image Metadata Editor
         </h1>
         <p className="text-lg text-muted-foreground mb-10 max-w-3xl leading-relaxed">
-          Edit every EXIF, IPTC, and XMP field in your photos — author, copyright, GPS coordinates, camera make and model, lens, date taken, keywords, and more. All edits happen in your browser. Download the updated image instantly.
+          Edit every EXIF, IPTC, and XMP field in your photos - author, copyright, GPS coordinates, camera make and model, lens, date taken, keywords, and more. All edits happen in your browser. Download the updated image instantly.
         </p>
 
         <ExifEditor />
@@ -95,7 +95,7 @@ export default function EditExifPage() {
             {[
               { step: "1", icon: <FileImage className="h-6 w-6" />, title: "Upload Your Photo", desc: "Drag and drop a JPEG, PNG, WebP, or TIFF image. The tool instantly reads all existing metadata and populates the editor." },
               { step: "2", icon: <Edit3 className="h-6 w-6" />, title: "Edit Any Field", desc: "Modify existing tags, delete unwanted metadata, or add completely new EXIF fields. You have full control over every tag." },
-              { step: "3", icon: <Zap className="h-6 w-6" />, title: "Save & Download", desc: "Click 'Save & Download' to get your updated image with all the new metadata embedded — ready to share or archive." },
+              { step: "3", icon: <Zap className="h-6 w-6" />, title: "Save & Download", desc: "Click 'Save & Download' to get your updated image with all the new metadata embedded - ready to share or archive." },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center text-center p-6">
                 <div className="h-14 w-14 rounded-2xl bg-accent text-white flex items-center justify-center mb-4 text-xl font-extrabold">{s.step}</div>

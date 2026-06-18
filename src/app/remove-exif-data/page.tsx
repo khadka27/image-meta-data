@@ -6,7 +6,7 @@ import { Shield, Trash2, MapPin, Lock, Eye, FileImage } from "lucide-react";
 export const metadata: Metadata = {
   title: "Remove Image Metadata & EXIF Data Online Free | EXIFForge",
   description:
-    "Remove all hidden EXIF, GPS location, and metadata from your photos instantly. Protect your privacy before sharing images online. Free tool — strip metadata from JPEG, PNG, WebP. No signup required.",
+    "Remove all hidden EXIF, GPS location, and metadata from your photos instantly. Protect your privacy before sharing images online. Free tool - strip metadata from JPEG, PNG, WebP. No signup required.",
   keywords: [
     "remove exif data",
     "remove image metadata",
@@ -58,7 +58,7 @@ export default function RemoveExifPage() {
               {
                 icon: <MapPin className="h-6 w-6 text-destructive" />,
                 title: "GPS Location Data",
-                desc: "Removes precise GPS coordinates (latitude, longitude, altitude) that reveal exactly where a photo was taken — protecting your home address, workplace, and travel patterns.",
+                desc: "Removes precise GPS coordinates (latitude, longitude, altitude) that reveal exactly where a photo was taken - protecting your home address, workplace, and travel patterns.",
               },
               {
                 icon: <Lock className="h-6 w-6 text-destructive" />,
@@ -68,7 +68,7 @@ export default function RemoveExifPage() {
               {
                 icon: <Eye className="h-6 w-6 text-destructive" />,
                 title: "Camera & Device Info",
-                desc: "Removes camera make, model, serial number, and firmware version — preventing device fingerprinting and revealing which equipment you use.",
+                desc: "Removes camera make, model, serial number, and firmware version - preventing device fingerprinting and revealing which equipment you use.",
               },
               {
                 icon: <FileImage className="h-6 w-6 text-destructive" />,
@@ -111,7 +111,7 @@ export default function RemoveExifPage() {
             <Shield className="h-16 w-16 text-accent shrink-0" />
             <div>
               <h3 className="text-xl font-bold mb-2">Does Facebook remove metadata from photos?</h3>
-              <p className="text-muted-foreground leading-relaxed">Yes, Facebook, Instagram, and most social media platforms automatically strip EXIF metadata when photos are uploaded. However, it&apos;s still best practice to remove it yourself before uploading — especially for platforms that may not strip all data, like some messaging apps (WhatsApp, Telegram in some modes).</p>
+              <p className="text-muted-foreground leading-relaxed">Yes, Facebook, Instagram, and most social media platforms automatically strip EXIF metadata when photos are uploaded. However, it&apos;s still best practice to remove it yourself before uploading - especially for platforms that may not strip all data, like some messaging apps (WhatsApp, Telegram in some modes).</p>
             </div>
           </div>
         </div>

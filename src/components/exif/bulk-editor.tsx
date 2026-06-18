@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useCallback, useRef } from "react";
@@ -6,7 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   UploadCloud, Trash2, MapPin, Edit3, X, Download,
   CheckCircle2, AlertCircle, Loader2, Plus, Image as ImageIcon,
-  FileDown, Settings, ChevronDown, ChevronUp
+  FileDown, Settings, ChevronDown, ChevronUp, Sparkles
 } from "lucide-react";
 import Image from "next/image";
 import { CAMERA_MAKES, CAMERA_MODELS } from "@/lib/camera-models";
@@ -72,6 +73,8 @@ export function BulkEditor() {
   const [progress, setProgress] = useState(0);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [resultCount, setResultCount] = useState<{ ok: number; error: number } | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const [aiTargetModel, setAiTargetModel] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback((newFiles: FileList | File[]) => {
@@ -137,25 +140,26 @@ export function BulkEditor() {
       setDownloadUrl(url);
       setProgress(100);
 
-      // Parse results from header
-      const resultsHeader = response.headers.get("X-Results");
-      if (resultsHeader) {
-        const results: Array<{ name: string; status: string }> = JSON.parse(resultsHeader);
-        const ok = results.filter(r => r.status === "ok").length;
-        setResultCount({ ok, error: results.length - ok });
-        setEntries(prev => prev.map(e => {
-          const r = results.find(r => r.name === e.file.name);
-          return { ...e, status: r?.status === "ok" ? "done" : "error" };
-        }));
+      const okCount = parseInt(response.headers.get("X-Results-Ok") || "0", 10);
+      const errCount = parseInt(response.headers.get("X-Results-Error") || "0", 10);
+      
+      if (okCount > 0 || errCount > 0) {
+        setResultCount({ ok: okCount, error: errCount });
+        // Individual file status is saved in _processing_log.json in the zip
+        setEntries(prev => prev.map(e => ({ ...e, status: "done" })));
       } else {
         setEntries(prev => prev.map(e => ({ ...e, status: "done" })));
         setResultCount({ ok: entries.length, error: 0 });
       }
 
       // Auto download
+      const zipFileName = fields.Model 
+        ? `${fields.Model.replace(/[^a-zA-Z0-9]/g, "_")}_images.zip` 
+        : `exifforge_bulk_${entries.length}_images.zip`;
+        
       const a = document.createElement("a");
       a.href = url;
-      a.download = `exifforge_bulk_${entries.length}_images.zip`;
+      a.download = zipFileName;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -168,6 +172,37 @@ export function BulkEditor() {
       alert("An error occurred. Please try again.");
     } finally {
       setProcessing(false);
+    }
+  };
+
+  const handleGenerate = async () => {
+    setGenerating(true);
+    try {
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          model: aiTargetModel || "",
+        })
+      });
+
+      if (!response.ok) throw new Error("Failed to generate metadata");
+
+      const generatedData = await response.json();
+      
+      // Wipe old metadata and strictly apply new generated data
+      setFields({
+        ...DEFAULT_FIELDS,
+        ...generatedData
+      });
+      
+      // Auto-expand advanced options
+      setShowAdvanced(true);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating metadata.");
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -187,14 +222,14 @@ export function BulkEditor() {
           ref={inputRef}
           type="file"
           multiple
-          accept="image/jpeg,image/png,image/webp,image/tiff"
+          accept="image/*"
           className="hidden"
           onChange={e => e.target.files && addFiles(e.target.files)}
         />
         <UploadCloud className="h-14 w-14 mx-auto text-accent mb-4 group-hover:scale-110 transition-transform duration-300 relative z-10" />
         <h3 className="text-2xl font-extrabold mb-2 tracking-tight relative z-10">Drop images here</h3>
         <p className="text-muted-foreground relative z-10 text-sm">
-          Or click to browse — JPEG, PNG, WebP, TIFF &bull; Up to 100 images
+          Or click to browse &bull; JPEG, PNG, WebP, TIFF, HEIC, AVIF, RAW &amp; more &bull; Up to 100 images
         </p>
       </div>
 
@@ -226,7 +261,15 @@ export function BulkEditor() {
                     fill
                     className="object-cover"
                     sizes="80px"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                      const fallback = (e.target as HTMLImageElement).nextElementSibling;
+                      if (fallback) (fallback as HTMLElement).style.display = 'flex';
+                    }}
                   />
+                  <div className="hidden items-center justify-center absolute inset-0 bg-muted">
+                    <ImageIcon className="h-5 w-5 text-muted-foreground" />
+                  </div>
                   {/* Status overlay */}
                   {entry.status === "processing" && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
@@ -282,7 +325,7 @@ export function BulkEditor() {
                   value: "remove_gps" as Operation,
                   icon: <MapPin className="h-7 w-7" />,
                   label: "Remove GPS Only",
-                  desc: "Strip location data only — keep camera & copyright info",
+                  desc: "Strip location data only - keep camera & copyright info",
                   color: "text-accent",
                   bg: "bg-accent/10 group-hover:bg-accent/20",
                   border: "border-accent/30",
@@ -320,9 +363,28 @@ export function BulkEditor() {
             {/* Edit Fields Form */}
             {operation === "edit" && (
               <div className="mt-4 border border-border/40 rounded-2xl overflow-hidden">
-                <div className="bg-muted/40 px-5 py-3 border-b border-border/40">
-                  <p className="font-semibold text-sm text-foreground">Metadata to apply to all images</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Leave fields blank to keep existing values</p>
+                <div className="bg-muted/40 px-5 py-3 border-b border-border/40 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-sm text-foreground">Metadata to apply to all images</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Leave fields blank to keep existing values</p>
+                  </div>
+                  <div className="flex items-center gap-2 w-full md:w-auto">
+                    <select 
+                      className="flex h-8 flex-1 md:w-48 rounded-md border border-input bg-background px-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                      value={aiTargetModel}
+                      onChange={e => setAiTargetModel(e.target.value)}
+                    >
+                      <option value="">Random Target Device</option>
+                      {Object.entries(CAMERA_MODELS).map(([group, models]) => (
+                        <optgroup key={group} label={group}>
+                          {models.map(model => <option key={model} value={model}>{model}</option>)}
+                        </optgroup>
+                      ))}
+                    </select>
+                    <Button variant="outline" size="sm" onClick={handleGenerate} disabled={generating} className="gap-2 text-purple-500 hover:text-purple-600 border-purple-200 hover:bg-purple-50 h-8 text-xs shrink-0">
+                      {generating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />} Generate
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Common fields */}
@@ -439,7 +501,8 @@ export function BulkEditor() {
 
               {downloadUrl && !processing && (
                 <Button
-                  render={<a href={downloadUrl} download={`exifforge_bulk_${entries.length}_images.zip`} />}
+                  nativeButton={false}
+                  render={<a href={downloadUrl} download={fields.Model ? `${fields.Model.replace(/[^a-zA-Z0-9]/g, "_")}_images.zip` : `exifforge_bulk_${entries.length}_images.zip`} />}
                   size="lg"
                   variant="outline"
                   className="gap-2 h-14 rounded-2xl font-bold border-accent text-accent hover:bg-accent/10"

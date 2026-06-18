@@ -75,7 +75,7 @@ export function GpsViewer() {
       <div className="bg-card border rounded-xl p-6">
         <div className="flex flex-col md:flex-row items-center gap-6">
            <div className="flex-1 w-full">
-             <input id="gps-upload" type="file" accept="image/jpeg, image/png, image/webp, image/heic" className="hidden" onChange={onFileChange} />
+             <input id="gps-upload" type="file" accept="image/*" className="hidden" onChange={onFileChange} />
              <div onClick={() => document.getElementById('gps-upload')?.click()} className="w-full p-8 rounded-xl border-2 border-dashed border-border text-center hover:bg-muted/50 cursor-pointer flex flex-col items-center justify-center gap-2 transition-colors">
                <UploadCloud className="h-8 w-8 text-muted-foreground" />
                <span className="font-medium">Select Image to Find Location</span>
