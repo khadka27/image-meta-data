@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   UploadCloud, Trash2, Image as ImageIcon, Save, Plus,
   FileImage, Settings, ChevronDown, ChevronUp, Gauge, Loader2,
-  CheckCircle2, AlertCircle, Zap
+  CheckCircle2, AlertCircle, Zap, Sparkles
 } from "lucide-react";
 import Image from "next/image";
 import { CAMERA_MAKES, CAMERA_MODELS } from "@/lib/camera-models";
@@ -42,6 +42,9 @@ export function ExifEditor() {
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [detecting, setDetecting] = useState(false);
+  const [replacing, setReplacing] = useState(false);
+  const [wipeOriginal, setWipeOriginal] = useState(false);
   
   const [tags, setTags] = useState<ExifTag[]>([]);
   
@@ -145,6 +148,79 @@ export function ExifEditor() {
     setTags(newTags);
   };
 
+  const handleDetect = async () => {
+    setDetecting(true);
+    try {
+      const existingObj: Record<string, string> = {};
+      tags.forEach(t => {
+        if (t.key.trim() !== "") existingObj[t.key] = t.value;
+      });
+
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ existingTags: existingObj }),
+      });
+
+      if (!response.ok) throw new Error("Failed to detect metadata");
+
+      const generatedData = await response.json();
+      
+      const newTags = [...tags];
+      const updateOrAdd = (key: string, value: string) => {
+        const existing = newTags.find(t => t.key === key);
+        if (existing) {
+          existing.value = String(value);
+        } else {
+          newTags.push({ id: Math.random().toString(36).substr(2, 9), key, value: String(value) });
+        }
+      };
+
+      Object.entries(generatedData).forEach(([k, v]) => {
+        if (v && String(v).trim() !== "") {
+          updateOrAdd(k, String(v));
+        }
+      });
+      
+      setTags(newTags);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating AI metadata.");
+    } finally {
+      setDetecting(false);
+    }
+  };
+
+  const handleReplaceAll = async () => {
+    setReplacing(true);
+    setWipeOriginal(true); // Automatically set wipe flag to true
+    try {
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model: targetDeviceModel || "" }),
+      });
+
+      if (!response.ok) throw new Error("Failed to fabricate metadata");
+
+      const generatedData = await response.json();
+      
+      const newTags: ExifTag[] = [];
+      Object.entries(generatedData).forEach(([k, v]) => {
+        if (v && String(v).trim() !== "") {
+          newTags.push({ id: Math.random().toString(36).substr(2, 9), key: k, value: String(v) });
+        }
+      });
+      
+      setTags(newTags);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating new AI metadata.");
+    } finally {
+      setReplacing(false);
+    }
+  };
+
   const handleSave = async () => {
     if (!file) return;
     setSaving(true);
@@ -163,6 +239,7 @@ export function ExifEditor() {
       data.append("metadata", JSON.stringify(metadataObj));
       data.append("outputFormat", outputFormat);
       data.append("quality", quality.toString());
+      if (wipeOriginal) data.append("wipeOriginal", "true");
 
       const response = await fetch("/api/exif/edit", {
         method: "POST",
@@ -300,6 +377,24 @@ export function ExifEditor() {
                   </Button>
                   <Button 
                     size="sm" 
+                    onClick={handleDetect}
+                    disabled={detecting || replacing}
+                    className="h-9 px-3 rounded-xl transition-colors text-xs gap-1"
+                    style={{ background: "rgba(244,114,182,0.15)", color: "#f472b6", border: "1px solid rgba(244,114,182,0.3)" }}
+                  >
+                    {detecting ? <Loader2 className="h-3 w-3 animate-spin" /> : <Zap className="h-3 w-3" />} AI Detect
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    onClick={handleReplaceAll}
+                    disabled={detecting || replacing}
+                    className="h-9 px-3 rounded-xl transition-colors text-xs gap-1"
+                    style={{ background: "rgba(251,146,60,0.15)", color: "#fb923c", border: "1px solid rgba(251,146,60,0.3)" }}
+                  >
+                    {replacing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />} AI Replace All
+                  </Button>
+                  <Button 
+                    size="sm" 
                     onClick={handleAddTag} 
                     className="h-9 px-3 rounded-xl transition-colors text-xs gap-1"
                     style={{ background: "rgba(34,211,238,0.15)", color: "#22d3ee", border: "1px solid rgba(34,211,238,0.3)" }}
@@ -363,6 +458,20 @@ export function ExifEditor() {
                   )}
                 </div>
               )}
+
+              {/* Wipe Original Checkbox */}
+              <label className="flex items-center gap-2 mt-4 cursor-pointer">
+                <input 
+                  type="checkbox" 
+                  checked={wipeOriginal} 
+                  onChange={(e) => setWipeOriginal(e.target.checked)} 
+                  className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-accent focus:ring-accent focus:ring-offset-gray-900" 
+                />
+                <span className="text-sm font-semibold" style={{ color: wipeOriginal ? "#fb923c" : "#94a3b8" }}>
+                  Wipe Original EXIF (Save ONLY these tags)
+                </span>
+              </label>
+
             </div>
           </div>
 

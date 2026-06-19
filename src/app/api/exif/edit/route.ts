@@ -112,9 +112,15 @@ export async function POST(req: NextRequest) {
       writeOptions.GPSLongitude = parseFloat(newMetadata.GPSLongitude);
     }
 
+    const wipeOriginal = formData.get("wipeOriginal") === "true";
+
     et = new ExifTool();
     try {
-      await et.write(inputPath, writeOptions, ["-overwrite_original"]);
+      const args = ["-overwrite_original"];
+      if (wipeOriginal) {
+        args.push("-all=");
+      }
+      await et.write(inputPath, writeOptions, args);
       
       let finalBuffer: Buffer = await readFile(inputPath);
       let finalExt = "";
