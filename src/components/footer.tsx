@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Zap, GitBranch } from "lucide-react";
 
 const TOOLS = [
@@ -36,15 +37,13 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-5 group w-fit">
-              <div
-                className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                style={{
-                  background: "linear-gradient(135deg, #7c3aed 0%, #22d3ee 100%)",
-                  boxShadow: "0 0 16px rgba(124,58,237,0.4)",
-                }}
-              >
-                <Zap className="h-4 w-4 text-white" strokeWidth={2.5} />
-              </div>
+              <Image 
+                src="/logo.png" 
+                alt="EXIFForge Logo" 
+                width={32} 
+                height={32} 
+                className="transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(124,58,237,0.5)]" 
+              />
               <span
                 className="font-extrabold text-xl tracking-tight"
                 style={{

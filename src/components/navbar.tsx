@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
+import Image from "next/image";
 
 const NAV_LINKS = [
   { href: "/exif-viewer",      label: "View EXIF"       },
@@ -32,15 +33,13 @@ export function Navbar() {
       <div className="max-w-screen-xl mx-auto px-6 md:px-10 h-16 md:h-18 flex items-center justify-between gap-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-          <div
-            className="h-8 w-8 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-            style={{
-              background: "linear-gradient(135deg, #7c3aed 0%, #22d3ee 100%)",
-              boxShadow: "0 0 16px rgba(124,58,237,0.5)",
-            }}
-          >
-            <Zap className="h-4 w-4 text-white" strokeWidth={2.5} />
-          </div>
+          <Image 
+            src="/logo.png" 
+            alt="EXIFForge Logo" 
+            width={32} 
+            height={32} 
+            className="transition-transform duration-300 group-hover:scale-110 drop-shadow-[0_0_12px_rgba(124,58,237,0.5)]" 
+          />
           <span
             className="font-extrabold text-xl tracking-tight"
             style={{
