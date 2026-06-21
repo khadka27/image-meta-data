@@ -66,7 +66,7 @@ const FIELD_LABELS: Record<keyof MetadataFields, string> = {
 };
 
 const FORMAT_OPTIONS: { value: OutputFormat; label: string; ext: string; desc: string; color: string }[] = [
-  { value: "default", label: "Default",  ext: "—",    desc: "Keep original format", color: "#94a3b8" },
+  { value: "default", label: "Default",  ext: "-",    desc: "Keep original format", color: "#94a3b8" },
   { value: "jpg",     label: "JPEG",     ext: ".jpg", desc: "Best for photos, small file size", color: "#fb923c" },
   { value: "png",     label: "PNG",      ext: ".png", desc: "Lossless, great for screenshots", color: "#22d3ee" },
   { value: "webp",    label: "WebP",     ext: ".webp",desc: "Modern format, smallest size",    color: "#34d399" },
@@ -343,7 +343,7 @@ export function BulkEditor() {
                   value: "remove_gps" as Operation,
                   icon: <MapPin className="h-6 w-6" />,
                   label: "Remove GPS Only",
-                  desc: "Strip location data only — keep camera & copyright info",
+                  desc: "Strip location data only - keep camera & copyright info",
                   accent: "#22d3ee",
                 },
                 {
@@ -463,7 +463,7 @@ export function BulkEditor() {
           </div>
 
           {/* ══════════════════════════════════════════════════════
-              OUTPUT OPTIONS — Format & Compression
+              OUTPUT OPTIONS - Format & Compression
           ══════════════════════════════════════════════════════ */}
           <div className="rounded-3xl overflow-hidden" style={glass}>
             <button
@@ -490,7 +490,7 @@ export function BulkEditor() {
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold"
                   style={{ background: `${selectedFmt.color}15`, border: `1px solid ${selectedFmt.color}40`, color: selectedFmt.color }}
                 >
-                  {selectedFmt.label} {selectedFmt.ext !== "—" && selectedFmt.ext}
+                  {selectedFmt.label} {selectedFmt.ext !== "-" && selectedFmt.ext}
                 </span>
                 {showOutputOptions
                   ? <ChevronUp className="h-4 w-4" style={{ color: "#475569" }} />
@@ -536,7 +536,7 @@ export function BulkEditor() {
                             <p className="text-xs font-bold" style={{ color: isActive ? fmt.color : "#64748b" }}>
                               {fmt.label}
                             </p>
-                            {fmt.ext !== "—" && (
+                            {fmt.ext !== "-" && (
                               <p className="text-[9px]" style={{ color: "#334155" }}>{fmt.ext}</p>
                             )}
                           </div>
@@ -547,11 +547,11 @@ export function BulkEditor() {
                   {/* Format description */}
                   <p className="text-xs mt-3 px-1" style={{ color: "#475569" }}>
                     {selectedFmt.desc}
-                    {outputFormat === "default" && " — ExifTool writes metadata in-place without re-encoding."}
+                    {outputFormat === "default" && " - ExifTool writes metadata in-place without re-encoding."}
                   </p>
                 </div>
 
-                {/* Quality slider — only for lossy formats */}
+                {/* Quality slider - only for lossy formats */}
                 {showQuality && (
                   <div
                     className="rounded-2xl p-4"
@@ -623,7 +623,7 @@ export function BulkEditor() {
                     <CheckCircle2 className="h-3.5 w-3.5 mt-0.5 shrink-0" style={{ color: "#a78bfa" }} />
                     <p className="text-xs" style={{ color: "#64748b" }}>
                       {outputFormat === "png"
-                        ? "PNG uses lossless compression — quality is always 100%. File size depends on image content."
+                        ? "PNG uses lossless compression - quality is always 100%. File size depends on image content."
                         : "TIFF is a lossless archival format. Files will be larger but with zero quality loss."}
                     </p>
                   </div>

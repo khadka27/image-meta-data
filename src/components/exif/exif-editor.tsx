@@ -21,7 +21,7 @@ interface ExifTag {
 }
 
 const FORMAT_OPTIONS: { value: OutputFormat; label: string; ext: string; desc: string; color: string }[] = [
-  { value: "default", label: "Default",  ext: "—",    desc: "Keep original format", color: "#94a3b8" },
+  { value: "default", label: "Default",  ext: "-",    desc: "Keep original format", color: "#94a3b8" },
   { value: "jpg",     label: "JPEG",     ext: ".jpg", desc: "Best for photos", color: "#fb923c" },
   { value: "png",     label: "PNG",      ext: ".png", desc: "Lossless, screenshots", color: "#22d3ee" },
   { value: "webp",    label: "WebP",     ext: ".webp",desc: "Modern format",    color: "#34d399" },
@@ -351,7 +351,7 @@ export function ExifEditor() {
                   <h3 className="font-bold text-sm" style={{ color: "#e2e8f8" }}>Dynamic Tags</h3>
                   <p className="text-xs mt-0.5" style={{ color: "#94a3b8" }}>Edit individual metadata tags</p>
                 </div>
-                <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
                   <select
                     className="flex h-9 flex-1 sm:w-48 rounded-xl px-2 text-xs transition-colors focus-visible:outline-none"
                     style={{ background: "rgba(13,18,55,0.8)", border: "1px solid rgba(139,92,246,0.3)", color: "#e2e8f8" }}
@@ -443,7 +443,7 @@ export function ExifEditor() {
                       </div>
                       <Button 
                         size="icon" 
-                        className="h-10 w-10 shrink-0 rounded-xl"
+                        className="h-10 w-10 shrink-0 rounded-xl self-end sm:self-auto"
                         style={{ background: "rgba(248,113,113,0.1)", color: "#f87171", border: "1px solid rgba(248,113,113,0.2)" }}
                         onClick={() => handleRemoveTag(tag.id)}
                       >
@@ -476,7 +476,7 @@ export function ExifEditor() {
           </div>
 
           {/* ══════════════════════════════════════════════════════
-              OUTPUT OPTIONS — Format & Compression
+              OUTPUT OPTIONS - Format & Compression
           ══════════════════════════════════════════════════════ */}
           <div className="rounded-3xl overflow-hidden" style={glass}>
             <button
@@ -502,7 +502,7 @@ export function ExifEditor() {
                   className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold"
                   style={{ background: `${selectedFmt.color}15`, border: `1px solid ${selectedFmt.color}40`, color: selectedFmt.color }}
                 >
-                  {selectedFmt.label} {selectedFmt.ext !== "—" && selectedFmt.ext}
+                  {selectedFmt.label} {selectedFmt.ext !== "-" && selectedFmt.ext}
                 </span>
                 {showOutputOptions
                   ? <ChevronUp className="h-4 w-4" style={{ color: "#475569" }} />
@@ -546,7 +546,7 @@ export function ExifEditor() {
                             <p className="text-xs font-bold" style={{ color: isActive ? fmt.color : "#64748b" }}>
                               {fmt.label}
                             </p>
-                            {fmt.ext !== "—" && (
+                            {fmt.ext !== "-" && (
                               <p className="text-[9px]" style={{ color: "#334155" }}>{fmt.ext}</p>
                             )}
                           </div>

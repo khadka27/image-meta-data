@@ -74,7 +74,7 @@ export default function BulkExifEditorPage() {
           }}
         >
           <Layers className="h-3.5 w-3.5" />
-          Bulk Processing — Up to 100 Images
+          Bulk Processing - Up to 100 Images
         </div>
 
         <h1
@@ -198,7 +198,7 @@ export default function BulkExifEditorPage() {
               },
               {
                 q: "What formats are supported?",
-                a: "JPEG, JPG, PNG, WebP, and TIFF files are all supported using ExifTool — the most widely-used metadata engine in the world.",
+                a: "JPEG, JPG, PNG, WebP, and TIFF files are all supported using ExifTool - the most widely-used metadata engine in the world.",
               },
               {
                 q: "How do I apply copyright to all my photos at once?",

@@ -17,10 +17,39 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "EXIFForge — Image Metadata Studio",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://exifforge.com"),
+  title: {
+    default: "EXIFForge - Free Online Image Metadata Studio (EXIF, IPTC, XMP)",
+    template: "%s",
+  },
   description:
-    "The complete suite for managing, viewing, and editing image metadata. Built for privacy and control.",
-  keywords: ["EXIF editor", "image metadata", "remove GPS", "privacy", "bulk EXIF"],
+    "View, edit, and remove image metadata online for free. Strip GPS location tracking, inject copyrights, and batch edit EXIF tags. 100% secure client-side editor.",
+  keywords: [
+    "EXIF editor online",
+    "image metadata viewer",
+    "remove GPS photo",
+    "edit EXIF data free",
+    "bulk metadata editor",
+    "exif tool online",
+    "exifforge",
+    "view photo tags",
+    "photo privacy editor"
+  ],
+  authors: [{ name: "EXIFForge" }],
+  creator: "EXIFForge",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "EXIFForge - Free Online Image Metadata Studio (EXIF, IPTC, XMP)",
+    description: "View, edit, and remove image metadata online for free. Strip GPS location tracking, inject copyrights, and batch edit EXIF tags.",
+    siteName: "EXIFForge",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EXIFForge - Free Online Image Metadata Studio (EXIF, IPTC, XMP)",
+    description: "View, edit, and remove image metadata online for free. Strip GPS location tracking, inject copyrights, and batch edit EXIF tags.",
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -46,8 +75,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col relative">
+      <body className="min-h-full flex flex-col relative" suppressHydrationWarning>
         {/* Ambient scan line */}
         <div className="scan-line" aria-hidden="true" />
         {/* Animated background orb bottom-left */}

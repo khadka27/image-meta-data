@@ -21,135 +21,231 @@ export default function Home() {
     <div className="flex flex-col w-full overflow-hidden">
 
       {/* ═══ HERO ═══ */}
-      <section className="relative min-h-[90vh] flex items-center justify-center grid-bg overflow-hidden py-24">
+      <section className="relative grid-bg overflow-hidden -mt-16 md:-mt-18 pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-36 lg:pb-32">
 
         {/* Large purple orb top-right */}
         <div
-          className="absolute -top-40 -right-40 w-[700px] h-[700px] rounded-full pointer-events-none"
+          className="absolute -top-40 -right-40 w-[800px] h-[800px] rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%)",
-            animation: "float-orb 10s ease-in-out infinite alternate",
+            background: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, transparent 70%)",
+            animation: "float-orb 12s ease-in-out infinite alternate",
           }}
           aria-hidden="true"
         />
         {/* Cyan orb bottom-left */}
         <div
-          className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+          className="absolute -bottom-32 -left-32 w-[600px] h-[600px] rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)",
-            animation: "float-orb 14s ease-in-out 3s infinite alternate",
+            background: "radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)",
+            animation: "float-orb 16s ease-in-out 3s infinite alternate",
           }}
           aria-hidden="true"
         />
 
-        <div className="container mx-auto px-4 flex flex-col items-center text-center relative z-10">
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-10"
-            style={{
-              background: "rgba(34,211,238,0.1)",
-              border: "1px solid rgba(34,211,238,0.3)",
-              color: "#22d3ee",
-              boxShadow: "0 0 20px rgba(34,211,238,0.15)",
-            }}
-          >
-            <span
-              className="h-1.5 w-1.5 rounded-full"
-              style={{ background: "#22d3ee", boxShadow: "0 0 6px #22d3ee", animation: "pulse 2s infinite" }}
-            />
-            100% Free &amp; Secure — No Sign-up
-          </div>
-
-          {/* Headline */}
-          <h1
-            className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight max-w-5xl mb-8 leading-[1.05]"
-            style={{ color: "#e2e8f8" }}
-          >
-            The Ultimate{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg, #a78bfa 0%, #22d3ee 50%, #f472b6 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Image Metadata
-            </span>
-            <br />Studio
-          </h1>
-
-          <p className="text-lg md:text-xl max-w-3xl mb-12 leading-relaxed" style={{ color: "#94a3c8" }}>
-            View, edit, remove, and manage EXIF data with professional-grade tools.
-            Protect your privacy or craft your photography workflow — all in your browser.
-          </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              href="/exif-viewer"
-              className="group inline-flex items-center gap-3 px-8 py-4 rounded-full text-base font-bold text-white transition-all duration-300"
-              style={{
-                background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
-                boxShadow: "0 0 30px rgba(124,58,237,0.5), 0 8px 24px rgba(0,0,0,0.3)",
-              }}
-            >
-              <Zap className="h-5 w-5" />
-              Start For Free
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="/bulk-exif-editor"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300"
-              style={{
-                background: "rgba(139,92,246,0.1)",
-                border: "1px solid rgba(139,92,246,0.3)",
-                color: "#c4b5fd",
-                boxShadow: "0 0 20px rgba(139,92,246,0.15)",
-              }}
-            >
-              <Layers className="h-4 w-4" />
-              Bulk Processing
-            </Link>
-          </div>
-
-          {/* Stats Row */}
-          <div className="flex flex-wrap justify-center gap-8 mt-20">
-            {[
-              { value: "100+", label: "Supported Formats" },
-              { value: "∞", label: "Free Uploads" },
-              { value: "0", label: "Data Stored" },
-              { value: "100%", label: "Browser-Safe" },
-            ].map((stat) => (
-              <div key={stat.label} className="flex flex-col items-center gap-1">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            {/* Left Column: Hero Details */}
+            <div className="lg:col-span-7 flex flex-col items-start text-left">
+              {/* Badge */}
+              <div
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-8"
+                style={{
+                  background: "rgba(34,211,238,0.1)",
+                  border: "1px solid rgba(34,211,238,0.3)",
+                  color: "#22d3ee",
+                  boxShadow: "0 0 20px rgba(34,211,238,0.15)",
+                }}
+              >
                 <span
-                  className="text-3xl font-extrabold"
+                  className="h-1.5 w-1.5 rounded-full"
+                  style={{ background: "#22d3ee", boxShadow: "0 0 6px #22d3ee", animation: "pulse 2s infinite" }}
+                />
+                100% Free &amp; Secure - Browser Powered
+              </div>
+
+              {/* Headline */}
+              <h1
+                className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]"
+                style={{ color: "#e2e8f8" }}
+              >
+                The Ultimate{" "}
+                <span
                   style={{
-                    background: "linear-gradient(135deg, #a78bfa, #22d3ee)",
+                    background: "linear-gradient(135deg, #a78bfa 0%, #22d3ee 50%, #f472b6 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     backgroundClip: "text",
                   }}
                 >
-                  {stat.value}
+                  Image Metadata
                 </span>
-                <span className="text-xs font-medium" style={{ color: "#64748b" }}>{stat.label}</span>
+                <br />Studio
+              </h1>
+
+              <p className="text-base md:text-lg max-w-2xl mb-10 leading-relaxed" style={{ color: "#94a3c8" }}>
+                View, edit, and sanitize EXIF, IPTC, and XMP data instantly. 
+                Keep your camera details precise, add copyrights, or strip private tracking variables-all with 100% client-side security.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <Link
+                  href="/exif-viewer"
+                  className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full text-base font-bold text-white transition-all duration-300"
+                  style={{
+                    background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)",
+                    boxShadow: "0 0 30px rgba(124,58,237,0.5), 0 8px 24px rgba(0,0,0,0.3)",
+                  }}
+                >
+                  <Zap className="h-5 w-5 animate-pulse" />
+                  Analyze Image
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/bulk-exif-editor"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-base font-bold transition-all duration-300"
+                  style={{
+                    background: "rgba(139,92,246,0.1)",
+                    border: "1px solid rgba(139,92,246,0.3)",
+                    color: "#c4b5fd",
+                    boxShadow: "0 0 20px rgba(139,92,246,0.15)",
+                  }}
+                >
+                  <Layers className="h-4 w-4" />
+                  Bulk Edit
+                </Link>
               </div>
-            ))}
+
+              {/* Stats Row */}
+              <div className="flex flex-wrap gap-8 mt-14 pt-8 border-t border-violet-500/15 w-full">
+                {[
+                  { value: "100+", label: "Formats" },
+                  { value: "0ms", label: "Upload Time" },
+                  { value: "0", label: "Files Retained" },
+                  { value: "100%", label: "Privacy Guard" },
+                ].map((stat) => (
+                  <div key={stat.label} className="flex flex-col items-start gap-1">
+                    <span
+                      className="text-2xl font-extrabold"
+                      style={{
+                        background: "linear-gradient(135deg, #a78bfa, #22d3ee)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {stat.value}
+                    </span>
+                    <span className="text-xs font-semibold" style={{ color: "#64748b" }}>{stat.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right Column: Premium EXIF HUD Mockup */}
+            <div className="lg:col-span-5 relative mt-10 lg:mt-0 flex justify-center">
+              
+              {/* Decorative radial lighting behind the simulator */}
+              <div 
+                className="absolute w-[350px] h-[350px] rounded-full blur-[90px] opacity-35 pointer-events-none"
+                style={{ background: "linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)" }}
+              />
+
+              {/* HUD Container */}
+              <div 
+                className="w-full max-w-sm rounded-3xl p-6 relative overflow-hidden transition-all duration-500 hover:scale-[1.02]"
+                style={{
+                  background: "rgba(13, 18, 55, 0.65)",
+                  backdropFilter: "blur(20px)",
+                  WebkitBackdropFilter: "blur(20px)",
+                  border: "1px solid rgba(139, 92, 246, 0.25)",
+                  boxShadow: "0 20px 50px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05)"
+                }}
+              >
+                {/* Header info */}
+                <div className="flex items-center justify-between border-b border-violet-500/15 pb-4 mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-xs font-semibold tracking-wider uppercase text-slate-400">Live Analyzer</span>
+                  </div>
+                  <span className="text-[10px] bg-violet-500/15 border border-violet-500/30 px-2.5 py-0.5 rounded-full text-violet-300 font-mono">
+                    DSC_0942.NEF
+                  </span>
+                </div>
+
+                {/* Viewfinder Area */}
+                <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/5 bg-slate-950/40 flex items-center justify-center mb-6">
+                  {/* Camera Grid lines HUD */}
+                  <div className="absolute inset-0 border border-white/[0.02]" />
+                  <div className="absolute top-1/2 left-0 right-0 h-px bg-white/[0.04] -translate-y-1/2" />
+                  <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/[0.04] -translate-x-1/2" />
+                  
+                  {/* Viewfinder Corners */}
+                  <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-cyan-400/40" />
+                  <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-cyan-400/40" />
+                  <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-cyan-400/40" />
+                  <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-cyan-400/40" />
+
+                  {/* Lens Icon in Center */}
+                  <Camera className="h-10 w-10 text-cyan-400/30 animate-pulse" />
+                  
+                  <div className="absolute bottom-2 left-3 text-[9px] font-mono text-cyan-400/70">
+                    REC [1080P]
+                  </div>
+                </div>
+
+                {/* Floating parameters */}
+                <div className="space-y-3.5">
+                  {[
+                    { label: "Camera Make / Model", val: "SONY ILCE-7RM5", icon: "📷", accent: "#a78bfa" },
+                    { label: "Lens Settings", val: "FE 24-70mm F2.8 GM II", sub: "f/2.8 · 1/250s · ISO 100", icon: "⚙️", accent: "#22d3ee" },
+                    { label: "Geotag GPS Location", val: "Shibuya, Tokyo, JP", sub: "35.6762° N, 139.6503° E", icon: "📍", accent: "#f472b6" },
+                  ].map((p, i) => (
+                    <div 
+                      key={p.label}
+                      className="p-3.5 rounded-xl border transition-all duration-300 hover:bg-violet-500/5 group/hud flex items-start gap-3.5"
+                      style={{
+                        background: "rgba(8,12,35,0.4)",
+                        borderColor: "rgba(139,92,246,0.12)",
+                      }}
+                    >
+                      <span className="text-base select-none mt-0.5">{p.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">{p.label}</div>
+                        <div className="text-xs font-bold text-slate-300 mt-0.5 truncate">{p.val}</div>
+                        {p.sub && <div className="text-[10px] text-slate-400/80 mt-0.5 font-mono">{p.sub}</div>}
+                      </div>
+                      <span 
+                        className="text-[9px] font-bold px-1.5 py-0.5 rounded border opacity-60 group-hover/hud:opacity-100 transition-opacity"
+                        style={{
+                          color: p.accent,
+                          borderColor: `${p.accent}30`,
+                          background: `${p.accent}10`
+                        }}
+                      >
+                        EXIF
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ═══ TRUST BAR ═══ */}
       <section
-        className="py-10 border-y overflow-hidden"
+        className="py-8 md:py-12 border-y overflow-hidden"
         style={{
           background: "rgba(13,18,55,0.4)",
           borderColor: "rgba(139,92,246,0.15)",
           backdropFilter: "blur(20px)",
         }}
       >
-        <div className="container mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.25em] mb-8" style={{ color: "#475569" }}>
             Trusted by photographers &amp; agencies worldwide
           </p>
@@ -176,7 +272,7 @@ export default function Home() {
       </section>
 
       {/* ═══ FEATURES ═══ */}
-      <section className="py-32 relative">
+      <section className="py-16 md:py-24 lg:py-32 relative">
         {/* Section orb */}
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] pointer-events-none"
@@ -186,7 +282,7 @@ export default function Home() {
           aria-hidden="true"
         />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-20">
             <div
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest mb-6"
@@ -229,14 +325,14 @@ export default function Home() {
 
       {/* ═══ HOW IT WORKS ═══ */}
       <section
-        className="py-32 relative overflow-hidden"
+        className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
         style={{
           background: "rgba(8,12,35,0.6)",
           borderTop: "1px solid rgba(139,92,246,0.1)",
           borderBottom: "1px solid rgba(139,92,246,0.1)",
         }}
       >
-        <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4" style={{ color: "#e2e8f8" }}>
               How it works
@@ -246,7 +342,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { step: "01", icon: <Globe className="h-7 w-7" />, title: "Upload Your Image", desc: "Drag & drop or browse any image — JPEG, PNG, RAW, HEIC, TIFF, WebP and more." },
+              { step: "01", icon: <Globe className="h-7 w-7" />, title: "Upload Your Image", desc: "Drag & drop or browse any image - JPEG, PNG, RAW, HEIC, TIFF, WebP and more." },
               { step: "02", icon: <Edit3 className="h-7 w-7" />, title: "Choose Your Operation", desc: "View, edit, strip GPS, remove all metadata, or batch process hundreds at once." },
               { step: "03", icon: <Lock className="h-7 w-7" />, title: "Download & Done", desc: "Your processed image is ready instantly. Nothing is stored on our servers." },
             ].map((item) => (
@@ -288,8 +384,8 @@ export default function Home() {
       </section>
 
       {/* ═══ WHY US / PRIVACY ═══ */}
-      <section className="py-32">
-        <div className="container mx-auto px-4">
+      <section className="py-16 md:py-24 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div
@@ -342,32 +438,54 @@ export default function Home() {
             </div>
 
             {/* Visual card stack */}
-            <div className="relative h-80 lg:h-96 hidden lg:block">
-              {[
-                { top: "0%",  left: "10%", label: "GPS Removed", color: "#22d3ee" },
-                { top: "25%", left: "35%", label: "Copyright Embedded", color: "#a78bfa" },
-                { top: "50%", left: "15%", label: "Metadata Stripped", color: "#f472b6" },
-              ].map((card, i) => (
-                <div
-                  key={card.label}
-                  className="absolute px-5 py-3 rounded-2xl flex items-center gap-3"
-                  style={{
-                    top: card.top,
-                    left: card.left,
-                    background: "rgba(13,18,55,0.7)",
-                    backdropFilter: "blur(20px)",
-                    border: `1px solid ${card.color}40`,
-                    boxShadow: `0 0 20px ${card.color}20`,
-                    animation: `float 4s ease-in-out ${i * 0.7}s infinite`,
-                  }}
-                >
+            <div className="relative h-80 lg:h-96 hidden lg:flex items-center justify-center">
+              {/* Background glowing orb for the cards */}
+              <div 
+                className="absolute w-[300px] h-[300px] rounded-full blur-[80px] opacity-40 pointer-events-none"
+                style={{ background: "linear-gradient(135deg, #22d3ee 0%, #a78bfa 100%)" }}
+              />
+              
+              <div className="relative w-full h-full max-w-sm mx-auto">
+                {[
+                  { top: "15%", left: "0%", label: "GPS Removed", color: "#22d3ee", delay: "0s", icon: "📍" },
+                  { top: "45%", left: "15%", label: "Copyright Embedded", color: "#a78bfa", delay: "0.7s", icon: "©️" },
+                  { top: "75%", left: "5%", label: "Metadata Stripped", color: "#f472b6", delay: "1.4s", icon: "🛡️" },
+                ].map((card) => (
                   <div
-                    className="h-2 w-2 rounded-full"
-                    style={{ background: card.color, boxShadow: `0 0 8px ${card.color}` }}
-                  />
-                  <span className="text-sm font-semibold" style={{ color: card.color }}>{card.label}</span>
-                </div>
-              ))}
+                    key={card.label}
+                    className="absolute px-6 py-4 rounded-2xl flex items-center gap-4 transition-all duration-300"
+                    style={{
+                      top: card.top,
+                      left: card.left,
+                      background: "rgba(13,18,55,0.75)",
+                      backdropFilter: "blur(24px)",
+                      WebkitBackdropFilter: "blur(24px)",
+                      border: `1px solid ${card.color}50`,
+                      boxShadow: `0 8px 32px rgba(0,0,0,0.3), 0 0 20px ${card.color}20`,
+                      animation: `float 5s ease-in-out ${card.delay} infinite`,
+                    }}
+                  >
+                    <div
+                      className="h-10 w-10 rounded-full flex items-center justify-center text-lg"
+                      style={{ 
+                        background: `${card.color}15`, 
+                        border: `1px solid ${card.color}40`,
+                        boxShadow: `inset 0 0 10px ${card.color}20`
+                      }}
+                    >
+                      {card.icon}
+                    </div>
+                    <div>
+                      <span className="block text-sm font-bold tracking-wide" style={{ color: card.color }}>
+                        {card.label}
+                      </span>
+                      <span className="block text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.6)" }}>
+                        Verified Secure
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -375,7 +493,7 @@ export default function Home() {
 
       {/* ═══ CTA BANNER ═══ */}
       <section
-        className="py-32 relative overflow-hidden"
+        className="py-16 md:py-24 lg:py-32 relative overflow-hidden"
         style={{
           background: "linear-gradient(135deg, rgba(124,58,237,0.2) 0%, rgba(6,182,212,0.1) 100%)",
           borderTop: "1px solid rgba(139,92,246,0.2)",
@@ -390,7 +508,7 @@ export default function Home() {
           aria-hidden="true"
         />
 
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <h2
             className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6"
             style={{ color: "#e2e8f8" }}
@@ -420,7 +538,7 @@ export default function Home() {
             }}
           >
             <Zap className="h-5 w-5" />
-            Get Started Now — It&apos;s Free
+            Get Started Now - It&apos;s Free
             <ArrowRight className="h-5 w-5" />
           </Link>
         </div>

@@ -78,7 +78,7 @@ export function ExifCompare() {
       </div>
 
       {(metaA || metaB) && (
-        <div className="border rounded-xl bg-card overflow-hidden">
+        <div className="border rounded-xl bg-card overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-muted text-muted-foreground uppercase text-xs">
               <tr>

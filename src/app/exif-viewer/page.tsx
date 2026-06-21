@@ -94,7 +94,7 @@ export default function ExifViewerPage() {
           </span>
         </h1>
         <p className="text-base mb-10 max-w-3xl leading-relaxed" style={{ color: "#64748b" }}>
-          Instantly view all hidden metadata in any image — camera make, model, lens, GPS location, ISO, aperture,
+          Instantly view all hidden metadata in any image - camera make, model, lens, GPS location, ISO, aperture,
           date taken, copyright, and more. Supports JPEG, PNG, WebP, and TIFF. Your file stays in your browser.
         </p>
 
@@ -148,7 +148,7 @@ export default function ExifViewerPage() {
             {[
               { step: "01", icon: <Camera className="h-6 w-6" />, title: "Upload Your Image", desc: "Drag & drop or click to select any JPEG, PNG, WebP, or TIFF file. Up to 50MB supported." },
               { step: "02", icon: <Zap className="h-6 w-6" />, title: "Instant Extraction", desc: "Our engine instantly reads all EXIF, IPTC, and XMP metadata directly in your browser." },
-              { step: "03", icon: <Globe className="h-6 w-6" />, title: "View All Details", desc: "See every field in a clean table — including GPS map, camera settings, and copyright info." },
+              { step: "03", icon: <Globe className="h-6 w-6" />, title: "View All Details", desc: "See every field in a clean table - including GPS map, camera settings, and copyright info." },
             ].map((s) => (
               <div key={s.step} className="flex flex-col items-center text-center p-8 rounded-2xl transition-all" style={glassCard}>
                 <div
@@ -181,7 +181,7 @@ export default function ExifViewerPage() {
             <Shield className="h-8 w-8" style={{ color: "#22d3ee" }} />
           </div>
           <div>
-            <h3 className="text-lg font-bold mb-1" style={{ color: "#e2e8f8" }}>100% Private — Your Images Never Leave Your Device</h3>
+            <h3 className="text-lg font-bold mb-1" style={{ color: "#e2e8f8" }}>100% Private - Your Images Never Leave Your Device</h3>
             <p className="text-sm leading-relaxed" style={{ color: "#475569" }}>
               All metadata extraction happens in your browser. We never upload, store, or process your images on any server.
             </p>

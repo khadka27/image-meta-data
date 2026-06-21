@@ -25,14 +25,14 @@ const LEGAL = [
 export function Footer() {
   return (
     <footer
-      className="mt-auto border-t pt-20 pb-10"
+      className="mt-auto border-t pt-16 md:pt-24 pb-8 md:pb-12"
       style={{
         background: "rgba(5,8,24,0.95)",
         backdropFilter: "blur(20px)",
         borderColor: "rgba(139,92,246,0.15)",
       }}
     >
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-1">
@@ -56,7 +56,7 @@ export function Footer() {
                 EXIFForge
               </span>
             </Link>
-            <p className="text-sm leading-relaxed mb-6" style={{ color: "#475569" }}>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: "#94a3c8" }}>
               The complete suite for managing, viewing, and editing image metadata.
               Built for privacy and control.
             </p>
@@ -91,7 +91,7 @@ export function Footer() {
                   <Link
                     href={link.href}
                     className="text-sm transition-all duration-200 flex items-center gap-1.5 group hover:text-[#e2e8f8]"
-                    style={{ color: "#475569" }}
+                    style={{ color: "#94a3c8" }}
                   >
                     <span
                       className="h-1 w-1 rounded-full transition-all duration-200 group-hover:w-3"
@@ -118,7 +118,7 @@ export function Footer() {
                   <Link
                     href={link.href}
                     className="text-sm transition-colors duration-200 hover:text-[#e2e8f8]"
-                    style={{ color: "#475569" }}
+                    style={{ color: "#94a3c8" }}
                   >
                     {link.label}
                   </Link>
@@ -141,7 +141,7 @@ export function Footer() {
                   <Link
                     href={link.href}
                     className="text-sm transition-colors duration-200 hover:text-[#e2e8f8]"
-                    style={{ color: "#475569" }}
+                    style={{ color: "#94a3c8" }}
                   >
                     {link.label}
                   </Link>
@@ -168,17 +168,17 @@ export function Footer() {
           className="flex flex-col md:flex-row items-center justify-between pt-8 gap-4"
           style={{ borderTop: "1px solid rgba(139,92,246,0.1)" }}
         >
-          <p className="text-xs" style={{ color: "#334155" }}>
+          <p className="text-xs" style={{ color: "#64748b" }}>
             © {new Date().getFullYear()} EXIFForge. All rights reserved.
           </p>
-          <div className="flex items-center gap-2 text-xs" style={{ color: "#334155" }}>
+          <div className="flex items-center gap-2 text-xs" style={{ color: "#64748b" }}>
             <span
               className="h-1.5 w-1.5 rounded-full"
               style={{ background: "#22d3ee", boxShadow: "0 0 6px #22d3ee", animation: "pulse 2s infinite" }}
             />
             All systems operational
           </div>
-          <p className="text-xs" style={{ color: "#334155" }}>Built for privacy and control.</p>
+          <p className="text-xs" style={{ color: "#64748b" }}>Built for privacy and control.</p>
         </div>
       </div>
     </footer>

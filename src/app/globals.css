@@ -94,7 +94,7 @@
   --neon-pink: #f472b6;
 }
 
-/* Light mode fallback — still a rich deep-blue palette */
+/* Light mode fallback - still a rich deep-blue palette */
 .light {
   --background: #0f1230;
   --foreground: #e2e8f8;
