@@ -3,6 +3,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import exifr from "exifr";
 import {
   UploadCloud, Trash2, MapPin, Edit3, X, Download,
   CheckCircle2, AlertCircle, Loader2, Plus, Image as ImageIcon,
@@ -100,6 +101,9 @@ export function BulkEditor() {
   const [outputFormat, setOutputFormat] = useState<OutputFormat>("default");
   const [quality, setQuality]           = useState<number>(85);
   const [showOutputOptions, setShowOutputOptions] = useState(false);
+
+  const [detecting, setDetecting] = useState(false);
+  const [replacing, setReplacing] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -206,6 +210,93 @@ export function BulkEditor() {
       alert(`Error: ${err.message || "An error occurred. Please try again."}`);
     } finally {
       setProcessing(false);
+    }
+  };
+
+  const handleDetect = async () => {
+    setDetecting(true);
+    try {
+      const existingObj: Record<string, string> = {};
+      
+      // 1. If we have files, parse EXIF of the first file for context
+      if (entries.length > 0) {
+        try {
+          const data = await exifr.parse(entries[0].file, true);
+          if (data) {
+            Object.entries(data).forEach(([key, value]) => {
+              if (typeof value === "string" || typeof value === "number" || value instanceof Date) {
+                let mappedKey = key;
+                if (key === "latitude") mappedKey = "GPSLatitude";
+                if (key === "longitude") mappedKey = "GPSLongitude";
+                if (key === "Artist") mappedKey = "Author";
+                existingObj[mappedKey] = value instanceof Date ? value.toISOString() : String(value);
+              }
+            });
+          }
+        } catch (exifErr) {
+          console.error("Error parsing first file EXIF for context:", exifErr);
+        }
+      }
+
+      // 2. Merge with any template fields the user has already entered
+      Object.entries(fields).forEach(([key, val]) => {
+        if (val && val.trim() !== "") {
+          existingObj[key] = val;
+        }
+      });
+
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ existingTags: existingObj }),
+      });
+
+      if (!response.ok) throw new Error("Failed to detect metadata");
+
+      const generatedData = await response.json();
+      
+      const newFields = { ...fields };
+      Object.entries(generatedData).forEach(([k, v]) => {
+        if (v && String(v).trim() !== "" && k in newFields) {
+          (newFields as any)[k] = String(v);
+        }
+      });
+      
+      setFields(newFields);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating AI metadata.");
+    } finally {
+      setDetecting(false);
+    }
+  };
+
+  const handleReplaceAll = async () => {
+    setReplacing(true);
+    try {
+      const response = await fetch("/api/generate-metadata", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ model: targetDeviceModel || "" }),
+      });
+
+      if (!response.ok) throw new Error("Failed to fabricate metadata");
+
+      const generatedData = await response.json();
+      
+      const newFields: MetadataFields = { ...DEFAULT_FIELDS };
+      Object.entries(generatedData).forEach(([k, v]) => {
+        if (v && String(v).trim() !== "" && k in newFields) {
+          (newFields as any)[k] = String(v);
+        }
+      });
+      
+      setFields(newFields);
+    } catch (error) {
+      console.error(error);
+      alert("An error occurred while generating new AI metadata.");
+    } finally {
+      setReplacing(false);
     }
   };
 
@@ -384,7 +475,7 @@ export function BulkEditor() {
                     <p className="font-semibold text-sm" style={{ color: "#e2e8f8" }}>Metadata to apply to all images</p>
                     <p className="text-xs mt-0.5" style={{ color: "#475569" }}>Leave fields blank to keep existing values</p>
                   </div>
-                  <div className="flex items-center gap-2 w-full md:w-auto">
+                  <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
                     <select
                       className="flex h-8 flex-1 md:w-48 rounded-lg px-2 text-xs"
                       style={{ background: "rgba(13,18,55,0.8)", border: "1px solid rgba(139,92,246,0.25)", color: "#94a3c8" }}
@@ -413,6 +504,24 @@ export function BulkEditor() {
                         </optgroup>
                       ))}
                     </select>
+                    <Button 
+                      size="sm" 
+                      onClick={handleDetect}
+                      disabled={detecting || replacing || processing}
+                      className="h-8 px-3 rounded-xl transition-colors text-xs gap-1"
+                      style={{ background: "rgba(244,114,182,0.15)", color: "#f472b6", border: "1px solid rgba(244,114,182,0.3)" }}
+                    >
+                      {detecting ? <Loader2 className="h-3 w-3 animate-spin" /> : <Zap className="h-3 w-3" />} Generate with AI
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      onClick={handleReplaceAll}
+                      disabled={detecting || replacing || processing}
+                      className="h-8 px-3 rounded-xl transition-colors text-xs gap-1"
+                      style={{ background: "rgba(251,146,60,0.15)", color: "#fb923c", border: "1px solid rgba(251,146,60,0.3)" }}
+                    >
+                      {replacing ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />} Replace with AI
+                    </Button>
                   </div>
                 </div>
                 <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">

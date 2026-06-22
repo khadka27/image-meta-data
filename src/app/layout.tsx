@@ -77,6 +77,44 @@ export default function RootLayout({
       className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const attrs = ['bis_skin_checked', 'bis_status', 'bis_frame_id', 'data-lt-installed'];
+                const clean = (el) => {
+                  if (!el || el.nodeType !== 1) return;
+                  attrs.forEach(a => { if (el.hasAttribute(a)) el.removeAttribute(a); });
+                };
+                const observer = new MutationObserver((mutations) => {
+                  mutations.forEach((m) => {
+                    if (m.type === 'attributes' && attrs.includes(m.attributeName)) {
+                      clean(m.target);
+                    }
+                    if (m.type === 'childList') {
+                      m.addedNodes.forEach((n) => {
+                        clean(n);
+                        if (n.nodeType === 1) {
+                          attrs.forEach(a => {
+                            n.querySelectorAll('[' + a + ']').forEach(clean);
+                          });
+                        }
+                      });
+                    }
+                  });
+                });
+                observer.observe(document.documentElement, {
+                  attributes: true,
+                  childList: true,
+                  subtree: true,
+                  attributeFilter: attrs
+                });
+              })();
+            `
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col relative" suppressHydrationWarning>
         {/* Ambient scan line */}
         <div className="scan-line" aria-hidden="true" />
